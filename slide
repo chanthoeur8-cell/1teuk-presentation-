@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1TEUK MKT Agency - Complete Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-glass: rgba(20, 20, 30, 0.7);
+            --accent-cyan: #00f3ff;
+            --accent-purple: #bd00ff;
+            --text-main: #ffffff;
+            --text-muted: #d1d5db;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(189, 0, 255, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.15) 0%, transparent 25%);
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-container {
+            position: absolute;
+            width: 90%;
+            max-width: 1280px;
+            height: 85%;
+            max-height: 720px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            padding: 60px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        .slide-container.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .slide-container.prev {
+            transform: translateX(-100px);
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { 
+            font-size: 90px; 
+            font-weight: 800; 
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .slide-title {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        
+        .slide-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-cyan);
+            margin-top: 15px;
+        }
+
+        h3 { font-size: 24px; color: var(--accent-cyan); margin-bottom: 10px; font-weight: 600; }
+        p, li { font-size: 18px; line-height: 1.7; color: var(--text-muted); }
+
+        .glass-panel {
+            background: var(--bg-glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 24px;
+        }
+
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .hero-img-3d {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .tiled-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .tile-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            transition: transform 0.3s;
+        }
+
+        .tile-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-purple);
+        }
+
+        .price-card {
+            background: var(--bg-glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin: 20px 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .media-item {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .gate-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .gate-step {
+            width: 30%;
+            text-align: center;
+        }
+
+        .gate-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-deep);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-layout, .split-layout, .tiled-grid, .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 50px; }
+            .slide-title { font-size: 36px; }
+            .slide-container { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+    <!-- Slide 1: Hero Title -->
+    <div class="slide-container active" data-slide="1">
+        <div class="hero-layout">
+            <div>
+                <p style="color: var(--accent-cyan); letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px;">Master Strategy v1.1</p>
+                <h1>1TEUK<br>DIGITAL</h1>
+                <p style="font-size: 24px; margin-top: 30px; color: #fff;">
+                    Scale Profit. Protect Quality. <span style="color: var(--accent-purple); font-weight: 700;">Enforce Discipline.</span>
+                </p>
+            </div>
+            <div>
+                <img class="hero-img-3d" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Team">
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Executive Vision -->
+    <div class="slide-container" data-slide="2">
+        <h2 class="slide-title">Executive Vision</h2>
+        <div class="split-layout">
+            <div class="glass-panel">
+                <i class="fa-solid fa-quote-left" style="font-size: 40px; color: var(--accent-cyan); margin-bottom: 20px;"></i>
+                <p style="font-size: 22px; color: #fff;">
+                    1TEUK Digital Marketing is a <strong style="color: var(--accent-cyan);">Cambodia-focused operations company</strong>. We solve chaos. We provide structure for SMEs and Personal Brands.
+                </p>
+                <p style="margin-top: 20px;">Systemized Growth Engine</p>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px;" alt="Office">
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: The Why -->
+    <div class="slide-container" data-slide="3">
+        <h2 class="slide-title">The Why</h2>
+        <div class="tiled-grid">
+            <div class="tile-card">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 40px; color: var(--accent-cyan); margin-bottom: 20px;"></i>
+                <h3>The Chaos</h3>
+                <p>Most SMEs lack internal structure. Inconsistent posting kills growth.</p>
+            </div>
+            <div class="tile-card" style="border-color: var(--accent-cyan);">
+                <i class="fa-solid fa-layer-group" style="font-size: 40px; color: var(--accent-purple); margin-bottom: 20px;"></i>
+                <h3>The Structure</h3>
+                <p>We install a reliable content + boosting process. Quality guaranteed.</p>
+            </div>
+            <div class="tile-card">
+                <i class="fa-solid fa-chart-line" style="font-size: 40px; color: var(--accent-cyan); margin-bottom: 20px;"></i>
+                <h3>The Outcome</h3>
+                <p>Controlled growth through a predictable operating system.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Service Ecosystem -->
+    <div class="slide-container" data-slide="4">
+        <h2 class="slide-title">Service Ecosystem</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div class="glass-panel">
+                <i class="fa-solid fa-calendar-check" style="font-size: 30px; color: var(--accent-cyan); margin-bottom: 15px;"></i>
+                <h3>Monthly Management</h3>
+                <p>Core Engine. Recurring revenue on FB & TikTok.</p>
+            </div>
+            <div class="glass-panel">
+                <i class="fa-solid fa-video" style="font-size: 30px; color: var(--accent-purple); margin-bottom: 15px;"></i>
+                <h3>Creative Production</h3>
+                <p>Standalone scripts, shooting, editing with strict QA.</p>
+            </div>
+            <div class="glass-panel">
+                <i class="fa-solid fa-hand-holding-dollar" style="font-size: 30px; color: var(--accent-cyan); margin-bottom: 15px;"></i>
+                <h3>Performance</h3>
+                <p>Commission-based partnerships for active clients.</p>
+            </div>
+            <div class="glass-panel">
+                <i class="fa-solid fa-chalkboard-user" style="font-size: 30px; color: var(--accent-purple); margin-bottom: 15px;"></i>
+                <h3>Training</h3>
+                <p>High-margin workshops teaching 1TEUK system.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Basic Package -->
+    <div class="slide-container" data-slide="5">
+        <h2 class="slide-title">Basic Package</h2>
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div class="price-card">
+                <div class="price">$259</div>
+                <h3 style="color: #fff; margin-bottom: 30px;">Small Business Starter</h3>
+                
+                <div style="text-align: left;">
+                    <h3>Social Media Management</h3>
+                    <ul class="feature-list">
+                        <li>Content posting & scheduling (FB, IG, TikTok) x5</li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">Content Creation</h3>
+                    <ul class="feature-list">
+                        <li>Create content & caption + hashtag x5</li>
+                        <li>Product video up to 30s</li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">Productions</h3>
+                    <ul class="feature-list">
+                        <li>Photo & video shooting with camera</li>
+                        <li>Create photo (poster 2, Artwork 1)</li>
+                        <li>Video review (voiceover) x1</li>
+                        <li>Content Revision x1</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Standard Package -->
+    <div class="slide-container" data-slide="6">
+        <h2 class="slide-title">Standard Package</h2>
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div class="price-card" style="border: 2px solid var(--accent-cyan);">
+                <div class="price">$459</div>
+                <h3 style="color: #fff; margin-bottom: 30px;">Most Popular - SME Growth</h3>
+                
+                <div style="text-align: left;">
+                    <h3>Social Media Management</h3>
+                    <ul class="feature-list">
+                        <li>Content posting & scheduling x7</li>
+                        <li>Manage & Boost/Ads Management</li>
+                        <li>Monthly report (Detail + Insight)</li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">Content Creation</h3>
+                    <ul class="feature-list">
+                        <li>Create content & caption x7</li>
+                        <li>Product video up to 1min</li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">Training & Consultation</h3>
+                    <ul class="feature-list">
+                        <li>Customer Chat Response Training</li>
+                        <li>Inbox Technical Management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Premium Package -->
+    <div class="slide-container" data-slide="7">
+        <h2 class="slide-title">Premium Package</h2>
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div class="price-card" style="border: 2px solid var(--accent-purple);">
+                <div class="price" style="color: var(--accent-purple);">$759</div>
+                <h3 style="color: #fff; margin-bottom: 30px;">Enterprise & Authority Brands</h3>
+                
+                <div style="text-align: left;">
+                    <h3>Social Media Management</h3>
+                    <ul class="feature-list">
+                        <li>Content posting & scheduling x9</li>
+                        <li>Manage & Boost/Ads Management</li>
+                        <li>Monthly report (Detail + Insight)</li>
+                        <li>Upload photo (profile & cover) x1</li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">Content Creation</h3>
+                    <ul class="feature-list">
+                        <li>Create content & caption x9</li>
+                        <li>Product video up to 1-2min</li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">Premium Services</h3>
+                    <ul class="feature-list">
+                        <li>On-site Filming Team</li>
+                        <li>Marketing Consultation & Strategic Planning</li>
+                        <li>Content Strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Creative Engine -->
+    <div class="slide-container" data-slide="8">
+        <h2 class="slide-title">Creative Engine</h2>
+        <div class="split-layout">
+            <div>
+                <h3 style="color: #fff; font-size: 32px;">Scientific Creativity</h3>
+                <p style="margin: 20px 0;">We follow a strict "Gate" system for production quality.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <i class="fa-solid fa-check" style="color: var(--accent-cyan); font-size: 24px;"></i>
+                        <p style="margin: 0;">Fixed Scope & Upfront Payment</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i class="fa-solid fa-shield" style="color: var(--accent-purple); font-size: 24px;"></i>
+                        <p style="margin: 0;">QA Gating: No post without approval</p>
+                    </div>
+                </div>
+            </div>
+            <div class="media-grid">
+                <img class="media-item" src="https://images.unsplash.com/photo-1598550476439-cce8bd2deb1d?auto=format&fit=crop&w=600&q=80" alt="Studio">
+                <img class="media-item" src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" alt="Camera">
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Internal Enablement -->
+    <div class="slide-container" data-slide="9">
+        <h2 class="slide-title">Internal Enablement</h2>
+        <div class="split-layout">
+            <div>
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px;" alt="AI Technology">
+            </div>
+            <div>
+                <div class="glass-panel" style="margin-bottom: 20px;">
+                    <i class="fa-solid fa-robot" style="font-size: 30px; color: var(--accent-cyan); margin-bottom: 15px;"></i>
+                    <h3>AI Accelerator</h3>
+                    <p>Efficiency tool for drafting, Auto-QA, and tone consistency.</p>
+                </div>
+                <div class="glass-panel">
+                    <i class="fa-solid fa-graduation-cap" style="font-size: 30px; color: var(--accent-purple); margin-bottom: 15px;"></i>
+                    <h3>Training Product</h3>
+                    <p>1TEUK execution system packaged into education.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Gate Operating Model -->
+    <div class="slide-container" data-slide="10">
+        <h2 class="slide-title">The "Gate" Operating Model</h2>
+        <div class="gate-container">
+            <div class="gate-step">
+                <div class="gate-icon">
+                    <i class="fa-solid fa-file-invoice-dollar" style="font-size: 30px; color: var(--accent-cyan);"></i>
+                </div>
+                <h3>Gate A: Sales</h3>
+                <p>Lead → Payment<br>No payment = No work</p>
+            </div>
+            <div class="gate-step">
+                <div class="gate-icon" style="border-color: var(--accent-purple);">
+                    <i class="fa-solid fa-list-check" style="font-size: 30px; color: var(--accent-purple);"></i>
+                </div>
+                <h3>Gate B: Onboarding</h3>
+                <p>Payment → Production<br>Assets & Strategy</p>
+            </div>
+            <div class="gate-step">
+                <div class="gate-icon" style="border-color: #fff;">
+                    <i class="fa-solid fa-shield-halved" style="font-size: 30px; color: #fff;"></i>
+                </div>
+                <h3>Gate C: QA</h3>
+                <p>Production → Publish<br>No QA = No posting</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Role Ownership -->
+    <div class="slide-container" data-slide="11">
+        <h2 class="slide-title">Role Ownership</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+            <div class="glass-panel">
+                <h3 style="color: #fff; margin-bottom: 20px;">Leadership</h3>
+                <p style="margin-bottom: 15px;"><strong style="color: var(--accent-cyan);">Mao Chandara:</strong> Director, Structure & Strategy</p>
+                <p><strong style="color: var(--accent-cyan);">SreyPom:</strong> Sales & Client Communication</p>
+            </div>
+            <div class="glass-panel">
+                <h3 style="color: #fff; margin-bottom: 20px;">Operations</h3>
+                <p style="margin-bottom: 15px;"><strong style="color: var(--accent-purple);">Votey:</strong> IT/AI Systems & Automation</p>
+                <p><strong style="color: var(--accent-purple);">Panha:</strong> Media Manager & QA</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Data Driven -->
+    <div class="slide-container" data-slide="12">
+        <h2 class="slide-title">Data Driven</h2>
+        <div class="tiled-grid">
+            <div class="glass-panel" style="text-align: center;">
+                <p style="text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">Company</p>
+                <div style="font-size: 60px; font-weight: 800; color: #fff; margin: 20px 0;">MRR</div>
+                <p>Active Clients<br>Retention</p>
+            </div>
+            <div class="glass-panel" style="text-align: center;">
+                <p style="text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">Sales</p>
+                <div style="font-size: 60px; font-weight: 800; color: var(--accent-cyan); margin: 20px 0;">Close %</div>
+                <p>Speed to Lead<br>Follow-up</p>
+            </div>
+            <div class="glass-panel" style="text-align: center;">
+                <p style="text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">Ops</p>
+                <div style="font-size: 60px; font-weight: 800; color: var(--accent-purple); margin: 20px 0;">On-Time</div>
+                <p>QA Pass Rate<br>Output</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Execution Roadmap -->
+    <div class="slide-container" data-slide="13">
+        <h2 class="slide-title">Execution Roadmap</h2>
+        <div class="split-layout">
+            <div>
+                <h3 style="color: #fff; margin-bottom: 20px;">Phase 1: Stabilize</h3>
+                <div class="glass-panel">
+                    <p style="margin-bottom: 15px;"><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Define Fixed Packages</p>
+                    <p style="margin-bottom: 15px;"><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Client Intake & Onboarding</p>
+                    <p><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Define QA Gate</p>
+                </div>
+            </div>
+            <div>
+                <h3 style="color: #fff; margin-bottom: 20px;">Phase 2: Repeatable</h3>
+                <div class="glass-panel">
+                    <p style="margin-bottom: 15px;"><i class="fa-solid fa-arrow-right" style="color: var(--accent-purple);"></i> Production SOP</p>
+                    <p style="margin-bottom: 15px;"><i class="fa-solid fa-arrow-right" style="color: var(--accent-purple);"></i> Weekly Planning</p>
+                    <p><i class="fa-solid fa-arrow-right" style="color: var(--accent-purple);"></i> Standardized Reporting</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: Portfolio -->
+    <div class="slide-container" data-slide="14">
+        <h2 class="slide-title">Our Portfolio</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Analytics">
+                <div class="portfolio-overlay">
+                    <h3 style="color: #fff;">Digital Analytics</h3>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" alt="Social">
+                <div class="portfolio-overlay">
+                    <h3 style="color: #fff;">Social Campaigns</h3>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=800&q=80" alt="Video">
+                <div class="portfolio-overlay">
+                    <h3 style="color: #fff;">Video Production</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Contact -->
+    <div class="slide-container" data-slide="15" style="text-align: center; display: flex; align-items: center; justify-content: center;">
+        <div>
+            <h2 style="font-size: 80px; margin-bottom: 40px;">Let's Execute.</h2>
+            <p style="font-size: 28px; color: #fff; margin-bottom: 20px;">1TEUK MKT Agency</p>
+            <p style="font-size: 20px; margin-bottom: 60px;">Digital Marketing Operations • Cambodia</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 900px; margin: 0 auto;">
+                <div style="padding: 30px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--accent-cyan); border-radius: 20px;">
+                    <i class="fa-solid fa-envelope" style="font-size: 30px; color: var(--accent-cyan); margin-bottom: 15px;"></i>
+                    <p style="color: var(--accent-cyan); margin: 0;">contact@1teuk.com</p>
+                </div>
+                <div style="padding: 30px; background: rgba(189, 0, 255, 0.1); border: 1px solid var(--accent-purple); border-radius: 20px;">
+                    <i class="fa-solid fa-globe" style="font-size: 30px; color: var(--accent-purple); margin-bottom: 15px;"></i>
+                    <p style="color: var(--accent-purple); margin: 0;">www.1teuk.com</p>
+                </div>
+                <div style="padding: 30px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;">
+                    <i class="fa-solid fa-phone" style="font-size: 30px; color: #fff; margin-bottom: 15px;"></i>
+                    <p style="margin: 0;">+855 69 424 999</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 60px;">
+                <h3 style="color: #fff;">Core Values</h3>
+                <div style="display: flex; gap: 30px; justify-content: center; margin-top: 20px;">
+                    <p><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Quality First</p>
+                    <p><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Systematic Approach</p>
+                    <p><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Client Success</p>
+                    <p><i class="fa-solid fa-check" style="color: var(--accent-cyan);"></i> Transparency</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation Controls -->
+<div class="nav-controls">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
+    </div>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+</div>
+
+<script>
+let currentSlide = 1;
+const totalSlides = 15;
+
+function showSlide(n) {
+    const slides = document.querySelectorAll('.slide-container');
+    
+    if (n > totalSlides) currentSlide = totalSlides;
+    if (n < 1) currentSlide = 1;
+    
+    slides.forEach((slide, index) => {
+        slide.classList.remove('active', 'prev');
+        if (index + 1 === currentSlide) {
+            slide.classList.add('active');
+        } else if (index + 1 < currentSlide) {
+            slide.classList.add('prev');
+        }
+    });
+    
+    document.getElementById('currentSlide').textContent = currentSlide;
+    
+    document.getElementById('prevBtn').disabled = currentSlide === 1;
+    document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+}
+
+function changeSlide(direction) {
+    currentSlide += direction;
+    showSlide(currentSlide);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'Home') { currentSlide = 1; showSlide(currentSlide); }
+    if (e.key === 'End') { currentSlide = totalSlides; showSlide(currentSlide); }
+});
+
+showSlide(currentSlide);
+</script>
+
+</body>
+</html>
